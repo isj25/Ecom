@@ -12,7 +12,7 @@ const Product = (props) => {
           <Card.Img src={product.image} variant="top"></Card.Img>
         </Link>
         <Card.Body>
-          <Link to={`product/${product.name}`}>
+          <Link to={`product/${product._id}`}>
             <Card.Text as='div'>
               <strong>{product.name}</strong>
             </Card.Text>
