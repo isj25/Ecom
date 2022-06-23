@@ -15,6 +15,9 @@ router.get("/",asyncHandler(async(req,res)=>{
     
 
     const products = await Product.find({});
+    // res.status(404);
+
+    // throw new Error('Not found')
     res.json(products);
 
 })); 
@@ -26,6 +29,8 @@ router.get("/",asyncHandler(async(req,res)=>{
 
 router.get("/:id",asyncHandler(async(req,res)=>{                            //asynch handler handles any error if
         const product = await Product.findById(req.params.id);
+        
+
         if(product)
         {
             res.json(product);
