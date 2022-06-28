@@ -2,8 +2,9 @@ import React from "react";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { Container } from "react-bootstrap";
-import Homescreen from "./screens/Homescreen";
+import HomeScreen from "./screens/HomeScreen";
 import ProductScreen from "./screens/ProductScreen";
+import CartScreen from "./screens/CartScreen";
 
 import { Routes, Route } from "react-router-dom";
 
@@ -15,8 +16,10 @@ const App = () => {
       <main className="py-3">
         <Container>
             <Routes>
-              <Route path="/" element={<Homescreen />} exact></Route>
-              <Route path="/products/:id" element={<ProductScreen/>} exact></Route>
+              <Route path="/" element={<HomeScreen />} ></Route>
+              <Route path="/products/:id" element={<ProductScreen/>} ></Route>
+              <Route path="/cart/:id" element={<CartScreen/>} ></Route>
+              <Route path="/cart" element={<CartScreen/>} ></Route>
             </Routes>
         </Container>
       </main>
