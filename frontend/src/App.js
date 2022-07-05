@@ -8,6 +8,10 @@ import CartScreen from "./screens/CartScreen";
 import LoginScreen from "./screens/LoginScreen";
 import { Routes, Route } from "react-router-dom";
 import RegisterScreen from "./screens/RegisterScreen";
+import ProfileScreen from "./screens/ProfileScreen";
+import ShippingScreen from "./screens/ShippingScreen";
+import PaymentScreen from "./screens/PaymentScreen";
+import PlaceOrderScreen from "./screens/PlaceOrderScreen";
 
 
 const App = () => {
@@ -17,13 +21,16 @@ const App = () => {
       <main className="py-3">
         <Container>
             <Routes>
-              
+              <Route path="/payment" element={<PaymentScreen/>}></Route>
+              <Route path="/placeorder" element={<PlaceOrderScreen/>}></Route>
+              <Route path="/shipping" element={<ShippingScreen/>}></Route>
               <Route path="/" element={<HomeScreen />} ></Route>
               <Route path="/login" element={<LoginScreen />} ></Route>
               <Route path="/register" element={<RegisterScreen/>} ></Route>
               <Route path="/products/:id" element={<ProductScreen/>} ></Route>
               <Route path="/cart/:id" element={<CartScreen/>} ></Route>
               <Route path="/cart" element={<CartScreen/>} ></Route>
+              <Route path="/profile" element={<ProfileScreen/>}></Route>
             </Routes>
         </Container>
       </main>

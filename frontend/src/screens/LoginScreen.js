@@ -16,13 +16,14 @@ const LoginScreen = () => {
     // console.log(userInfo)
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
-    const redirect = location.search ? location.search.split('=')[1]: '/'
+    const redirect = location.search ? location.search.split('=')[1]: ''
 
 
     useEffect(()=>{
                 if(userInfo)
                 {
-                        navigate(redirect);
+                        
+                        navigate(`/${redirect}`);
                 }
     },[navigate,redirect,userInfo])
     function submitHandler(event)
