@@ -1,12 +1,12 @@
 
-import React,{useEffect, useState} from 'react'
+import React,{useEffect} from 'react'
 import {Image,Button,Col, Row,ListGroup} from 'react-bootstrap';
-import {useNavigate,Link, Navigate} from 'react-router-dom';
+import {useNavigate,Link} from 'react-router-dom';
 import {useDispatch,useSelector} from 'react-redux';
 import Message from "../components/Message"
 import CheckoutSteps from '../components/CheckoutSteps';
 import {createOrder} from "../actions/orderActions.js"
-import { ORDER_HISTORY_CLEAR } from '../constants/orderConstants';
+
 
 
 const PlaceOrderScreen = () => {
@@ -56,10 +56,8 @@ const PlaceOrderScreen = () => {
       navigate(`/orders/${order._id}`);
     }
    
-    dispatch({
-      type: ORDER_HISTORY_CLEAR
-    })
-  },[shippingAddress,order])
+
+  },[shippingAddress,order,navigate])
   cart.itemsPrice = addDecimal(cart.cartItems.reduce((acc,item)=>(acc+ item.qty * item.price),0));
   cart.shippingPrice = addDecimal(cart.itemsPrice > 100 ? 0 : 10);
   cart.taxPrice = addDecimal((cart.itemsPrice * 0.15).toFixed(2));
