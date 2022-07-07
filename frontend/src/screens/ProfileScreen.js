@@ -8,15 +8,16 @@ import {
   FormLabel,
   FormControl,
   ListGroup,
+  ListGroupItem,
 } from "react-bootstrap";
-import { useNavigate,Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { getUserDetails, updateUserDetails } from "../actions/userActions";
 
 import { getAllOrders } from "../actions/orderActions";
-import dayjs from "dayjs"
+import dayjs from "dayjs";
 
 const ProfileScreen = () => {
   // const location = useLocation();
@@ -39,13 +40,9 @@ const ProfileScreen = () => {
   const userUpdate = useSelector((state) => state.updateUser);
   const { success } = userUpdate;
 
-  
-  const allOrders = useSelector(state => state.allOrders);
-  const {error: allOrdersError,orders} = allOrders
- // console.log(orders)
-
- 
-
+  const allOrders = useSelector((state) => state.allOrders);
+  const { error: allOrdersError, orders } = allOrders;
+  // console.log(orders)
 
   useEffect(() => {
     if (!userInfo) {
@@ -59,12 +56,7 @@ const ProfileScreen = () => {
       }
     }
 
-
-   
-      dispatch(getAllOrders())
-
-     
-    
+    dispatch(getAllOrders());
   }, [userInfo, navigate, user, dispatch]);
 
   function submitHandler(event) {
@@ -78,121 +70,121 @@ const ProfileScreen = () => {
     }
   }
 
+ 
+
   return (
     <Row>
-          
-          <h3>{user.name}</h3>
-          <Col md={4}>
-            {error && <Message variant="danger">{error}</Message>}
-            {message && <Message variant="danger">{message}</Message>}
-            {success && <Message variant="success">{success}</Message>}
-            {loading && <Loader></Loader>}
+      <h3>{user.name}</h3>
+      <Col md={4}>
+        {error && <Message variant="danger">{error}</Message>}
+        {message && <Message variant="danger">{message}</Message>}
+        {success && <Message variant="success">{success}</Message>}
+        {loading && <Loader></Loader>}
 
-            <Form onSubmit={submitHandler} className="d-grid">
-              <FormGroup controlId="text">
-                <FormLabel>User Name</FormLabel>
-                <FormControl
-                  type="text"
-                  value={name}
-                  placeholder="Enter User Name"
-                  onChange={(e) => setName(e.target.value)}
-                ></FormControl>
-              </FormGroup>
+        <Form onSubmit={submitHandler} className="d-grid">
+          <FormGroup controlId="text">
+            <FormLabel>User Name</FormLabel>
+            <FormControl
+              type="text"
+              value={name}
+              placeholder="Enter User Name"
+              onChange={(e) => setName(e.target.value)}
+            ></FormControl>
+          </FormGroup>
 
-              <FormGroup controlId="email">
-                <FormLabel>Email address</FormLabel>
-                <FormControl
-                  type="email"
-                  value={email}
-                  placeholder="Enter email address"
-                  onChange={(e) => setEmail(e.target.value)}
-                ></FormControl>
-              </FormGroup>
+          <FormGroup controlId="email">
+            <FormLabel>Email address</FormLabel>
+            <FormControl
+              type="email"
+              value={email}
+              placeholder="Enter email address"
+              onChange={(e) => setEmail(e.target.value)}
+            ></FormControl>
+          </FormGroup>
 
-              <FormGroup controlId="password">
-                <FormLabel>Password</FormLabel>
-                <FormControl
-                  type="password"
-                  value={password}
-                  placeholder="Enter password"
-                  onChange={(e) => setPassword(e.target.value)}
-                ></FormControl>
-              </FormGroup>
-              <FormGroup controlId="confirmPassword">
-                <FormLabel>Confirm Password</FormLabel>
-                <FormControl
-                  type="password"
-                  value={confirmPassword}
-                  placeholder="Confirm Password"
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                ></FormControl>
-              </FormGroup>
-              <Button
-                type="submit"
-                variant="primary"
-                className="btn-block my-3"
-              >
-                Update
-              </Button>
-            </Form>
-          </Col>
-          <Col md={8}>
-            <h3>Order History</h3>
+          <FormGroup controlId="password">
+            <FormLabel>Password</FormLabel>
+            <FormControl
+              type="password"
+              value={password}
+              placeholder="Enter password"
+              onChange={(e) => setPassword(e.target.value)}
+            ></FormControl>
+          </FormGroup>
+          <FormGroup controlId="confirmPassword">
+            <FormLabel>Confirm Password</FormLabel>
+            <FormControl
+              type="password"
+              value={confirmPassword}
+              placeholder="Confirm Password"
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            ></FormControl>
+          </FormGroup>
+          <Button type="submit" variant="primary" className="btn-block my-3">
+            Update
+          </Button>
+        </Form>
+      </Col>
+      <Col md={8}>
+        <h3>Order History</h3>
 
+        <ListGroup>
+          <ListGroupItem>
+            <Row>
+              <Col md={3}>Order Id</Col>
 
-            <ListGroup >
-            
-              {
-                orders.length===0 ? <h4>No recent Orders</h4> :(
+              <Col md={3}>Ordered On</Col>
 
+              <Col md={2}>Quantity</Col>
 
-                    orders.map((item,ind)=>{
+              <Col md={2}>Total</Col>
+            </Row>
+          </ListGroupItem>
+        </ListGroup>
+        <ListGroup>
+          {orders.length === 0 ? (
+            <h4>No recent Orders</h4>
+          ) : (
+            orders.map((item, ind) => {
+              return (
+                <ListGroup.Item key={ind}>
+                  <Row className="justify-content-center">
+                    <Col md={3}>
+                      <Link to={`/orders/${item._id}`}>
+                        Order :{String(item._id).substring(item._id.length - 6)}
+                      </Link>
+                    </Col>
 
-                     return <ListGroup.Item key={ind}>
-                      
-                          <Row className="justify-content-center">
-                            <Col md={3} >
-                              
-                                <Link to={`/orders/${item._id}`}>
-                                Order : 
-                                {
-                                  String(item._id).substring(item._id.length - 6)
-                                }
-                                </Link>
-                               
-                              </Col>
+                    <Col md={3}>
+                      {dayjs(item.createdAt).format("DD/MM/YYYY").toString()}
+                    </Col>
 
-                              <Col md={3}>
-                                {
+                    <Col md={2}>
+                      {item.orderItems.length > 1
+                        ? item.orderItems.length + " Items"
+                        : item.orderItems.length + " Item"}
+                    </Col>
 
-                                  dayjs(item.createdAt).format("DD/MM/YYYY").toString()
-                                }
-                              </Col>
+                    <Col md={2}>${item.itemsPrice}</Col>
 
-
-                                <Col md={2}>
-
-                                  {item.orderItems.length > 1 ? item.orderItems.length + " Items" : item.orderItems.length +" Item"} 
-                                </Col>
-
-                                <Col md={2}>
-                                  <Button type='button' variant="warning" onClick={()=>{
-
-                                    navigate(`/orders/${item._id}`)
-                                  }}>View</Button>
-                                </Col>
-                          </Row>
-                      </ListGroup.Item>
-
-                    })
-
-
-                )
-              }
-            </ListGroup>
-          </Col>
-       
- 
+                    <Col md={2}>
+                      <Button
+                        type="button"
+                        variant="warning"
+                        onClick={() => {
+                          navigate(`/orders/${item._id}`);
+                        }}
+                      >
+                        View
+                      </Button>
+                    </Col>
+                  </Row>
+                </ListGroup.Item>
+              );
+            })
+          )}
+        </ListGroup>
+      </Col>
     </Row>
   );
 };

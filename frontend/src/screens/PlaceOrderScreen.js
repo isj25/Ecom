@@ -19,7 +19,7 @@ const PlaceOrderScreen = () => {
   const orderCreate = useSelector(state=> state.orderCreate);
   const { error,success,order} = orderCreate
 
-console.log(order)
+//console.log(order)
 
   //to round off numbers
 
