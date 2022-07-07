@@ -35,7 +35,7 @@ const RegisterScreen = () => {
             event.preventDefault();
             //dispatch login
 
-            if(password !=confirmPassword)
+            if(password !==confirmPassword)
             {
                     setMessage('Password is not same')
             }else

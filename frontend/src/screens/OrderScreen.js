@@ -1,26 +1,41 @@
 import React, { useEffect } from "react";
-import { Image, Button, Col, Row, ListGroup } from "react-bootstrap";
-import { useNavigate, Link, useParams } from "react-router-dom";
+import { Image,Col, Row, ListGroup } from "react-bootstrap";
+import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 
-import { getOrderDetails } from "../actions/orderActions.js";
+
+import { clearOrder, getOrderDetails } from "../actions/orderActions.js";
+import { clearCart } from "../actions/cartActions";
+
 
 const OrderScreen = () => {
-  const { id } = useParams();
- // console.log(id);
+
+
   const dispatch = useDispatch();
+
+  const { id } = useParams();
+
+
   const orderDetails = useSelector((state) => state.orderDetails);
   const { order, loading, error } = orderDetails;
-//  console.log(order)
+
+  dispatch(clearCart());
+  dispatch(clearOrder());
+
+
+
   useEffect(() => {
-    if(!order || order._id !== id)
-    {
-      dispatch(getOrderDetails(id));
-    }
-    
-  }, [id,dispatch,order]);
+
+
+    //  
+
+      if(!order || order._id !== id )
+      {
+        dispatch(getOrderDetails(id));
+      }
+    }, [id,dispatch,order]);
 
   return (
   loading ? (
@@ -48,13 +63,13 @@ const OrderScreen = () => {
                 <br />
                 { order.shippingAddress.country }
               </p>
-              {order.isDelivered ? <Message variant='success'>Delivered on {order.deliveredAt}</Message> : <Message variant='danger'>Not Delivered</Message>}
+             
             </ListGroup.Item>
 
             <ListGroup.Item>
               <h2>Payment Method</h2>
               <p>{order.paymentMethod}</p>
-              {order.isPaid ? <Message variant='success'>Paid on {order.paidAt}</Message> : <Message variant='danger'>Not Paid</Message>}
+           
             </ListGroup.Item>
 
             <ListGroup.Item>

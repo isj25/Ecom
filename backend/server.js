@@ -20,6 +20,8 @@ app.get("/",(req,res)=>{
     res.json("Server is running ...");
 })
 
+
+app.get("/api/config/paypal",(req,res)=> res.send(process.env.PAYPAL_CLIENT_ID))
 app.use("/api/products",productRoutes);
 app.use("/api/users",userRoutes)
 

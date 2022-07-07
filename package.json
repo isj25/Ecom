@@ -24,11 +24,14 @@
   "homepage": "https://github.com/isj25/Ecom#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "browserify-zlib": "^0.2.0",
     "colors": "^1.4.0",
+    "dayjs": "^1.11.3",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "express-async-handler": "^1.2.0",
     "jsonwebtoken": "^8.5.1",
+    "mongodb": "^4.7.0",
     "mongoose": "^6.4.0"
   },
   "devDependencies": {

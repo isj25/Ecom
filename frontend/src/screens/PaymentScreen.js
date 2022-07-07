@@ -1,5 +1,5 @@
 import React,{useEffect, useState} from 'react'
-import {Button, Form,FormGroup, FormLabel, FormControl,Col} from 'react-bootstrap';
+import {Button, Form,Col} from 'react-bootstrap';
 import {useNavigate} from 'react-router-dom';
 import {useDispatch,useSelector} from 'react-redux';
 import FormContainer from '../components/FormContainer';
@@ -41,7 +41,7 @@ const PaymentScreen = () => {
     function submitHandler(event)
     {
             event.preventDefault();
-            //dispatch login
+   
             dispatch(savePaymentMethod(paymentMethod))
             navigate("/placeorder")
           

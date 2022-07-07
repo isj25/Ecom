@@ -1,5 +1,5 @@
 import axios from "axios"
-import {CART_ADD_ITEM, CART_REMOVE_ITEM, CART_SAVE_PAYMENT_METHOD, CART_SAVE_SHIPPING_ADDRESS} from "../constants/cartConstants";
+import {CART_ADD_ITEM, CART_CLEAR, CART_REMOVE_ITEM, CART_SAVE_PAYMENT_METHOD, CART_SAVE_SHIPPING_ADDRESS} from "../constants/cartConstants";
 
 export const addToCart =(id,qty)=> async(dispatch,getState)=>{
 
@@ -62,5 +62,18 @@ export const savePaymentMethod = (paymentMethod) => (dispatch)=>{
             payload : paymentMethod
         }
     )
+
+}
+
+
+
+export const clearCart = () =>(dispatch)=>{
+
+
+        localStorage.removeItem('cartItems')
+        dispatch({
+            type : CART_CLEAR
+        })
+       
 
 }
