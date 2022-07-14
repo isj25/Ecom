@@ -21,8 +21,7 @@ const OrderScreen = () => {
   const orderDetails = useSelector((state) => state.orderDetails);
   const { order, loading, error } = orderDetails;
 
-  dispatch(clearCart());
-  dispatch(clearOrder());
+ 
 
 
 
@@ -30,6 +29,12 @@ const OrderScreen = () => {
 
 
     //  
+
+      if(order)
+      { 
+        dispatch(clearCart());
+        dispatch(clearOrder());
+      }
 
       if(!order || order._id !== id )
       {
@@ -66,13 +71,13 @@ const OrderScreen = () => {
               </p>
              
             </ListGroup.Item>
-
+            {order.isDelivered? <Message variant='success'>Delivered</Message> :<Message variant='danger'>Not Delivered</Message>}
             <ListGroup.Item>
               <h2>Payment Method</h2>
               <p>{order.paymentMethod}</p>
            
             </ListGroup.Item>
-
+              {order.isPaid? <Message variant='success'>Paid on {order.paidAt}</Message> :<Message variant='danger'>Not Paid</Message>}
             <ListGroup.Item>
               <h2>Order Details</h2>
               <ListGroup variant="flush">

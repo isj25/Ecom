@@ -16,7 +16,7 @@ import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { getUserDetails, updateUserDetails } from "../actions/userActions";
 
-import { getAllOrders } from "../actions/orderActions";
+import { getMyOrders } from "../actions/orderActions";
 import dayjs from "dayjs";
 
 const ProfileScreen = () => {
@@ -40,8 +40,8 @@ const ProfileScreen = () => {
   const userUpdate = useSelector((state) => state.updateUser);
   const { success } = userUpdate;
 
-  const allOrders = useSelector((state) => state.allOrders);
-  const { error: allOrdersError, orders } = allOrders;
+  const myOrders = useSelector((state) => state.myOrders);
+  const { error: myOrdersError, orders } =myOrders;
   // console.log(orders)
 
   useEffect(() => {
@@ -56,7 +56,7 @@ const ProfileScreen = () => {
       }
     }
 
-    dispatch(getAllOrders());
+    dispatch(getMyOrders());
   }, [userInfo, navigate, user, dispatch]);
 
   function submitHandler(event) {
@@ -127,7 +127,7 @@ const ProfileScreen = () => {
       </Col>
       <Col md={8}>
         <h3>Order History</h3>
-
+        {myOrdersError ? <Message variant='danger'>{myOrdersError}</Message>:""}
         <ListGroup>
           <ListGroupItem>
             <Row>
@@ -169,13 +169,15 @@ const ProfileScreen = () => {
 
                     <Col md={2}>
                       <Button
+                       className="btn btn-sm btn-outline-dark"
+                       style={{width:'100%'}}
                         type="button"
-                        variant="warning"
+                        variant="light"
                         onClick={() => {
                           navigate(`/orders/${item._id}`);
                         }}
                       >
-                        View
+                       Details
                       </Button>
                     </Col>
                   </Row>

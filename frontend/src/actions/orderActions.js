@@ -12,9 +12,13 @@ import {
   ALL_ORDER_DETAILS_SUCCESS,
   ALL_ORDER_DETAILS_FAIL,
   CLEAR_ORDER,
+  ORDER_MY_DETAILS_REQUEST,
+  ORDER_MY_DETAILS_SUCCESS,
+  ORDER_MY_DETAILS_FAIL,
 } from "../constants/orderConstants.js";
 import axios from "axios";
 import asyncHandler from "express-async-handler";
+import { CART_CLEAR } from "../constants/cartConstants.js";
 
 
 
@@ -43,6 +47,17 @@ export const createOrder = (orderDetails) =>
         type: ORDER_CREATE_SUCCESS,
         payload: data,
       });
+
+      // dispatch({
+      //   type: CLEAR_ORDER
+      // })
+
+
+      // localStorage.removeItem('cartItems')
+      // dispatch({
+      //     type : CART_CLEAR
+      // })
+
     } catch (error) {
       dispatch({
         type: ORDER_CREATE_FAIL,
@@ -145,7 +160,7 @@ export const payOrder = (orderId, paymentResult) =>
 
 
 
-  export const getAllOrders = ()=> asyncHandler(async(dispatch,getState)=>{
+  export const getMyOrders = ()=> asyncHandler(async(dispatch,getState)=>{
 
 
 
@@ -153,7 +168,7 @@ export const payOrder = (orderId, paymentResult) =>
 
         dispatch({
 
-          type : ALL_ORDER_DETAILS_REQUEST
+          type : ORDER_MY_DETAILS_REQUEST
         })
 
 
@@ -171,7 +186,7 @@ export const payOrder = (orderId, paymentResult) =>
         const {data} = await axios.get("/api/orders/getorders",config);
        // console.log(data)
         dispatch({
-          type: ALL_ORDER_DETAILS_SUCCESS,
+          type: ORDER_MY_DETAILS_SUCCESS,
           payload : data
         })
 
@@ -180,7 +195,7 @@ export const payOrder = (orderId, paymentResult) =>
     {
 
       dispatch({
-        type: ALL_ORDER_DETAILS_FAIL,
+        type: ORDER_MY_DETAILS_FAIL,
         payload:
           error.response && error.response.data.message
             ? error.response.data.message
