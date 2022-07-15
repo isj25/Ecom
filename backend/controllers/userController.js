@@ -114,6 +114,32 @@ const getUserProfile = asyncHandler(async(req,res)=>{
 
 
 
+//@desc Get all users
+//@route GET /api/users
+//@access Private/Admin
+
+const getAllUsers= asyncHandler(async(req,res)=>{
+
+
+  
+
+    const user = await User.find({});
+   
+    if(user)
+    {
+        res.json(user)
+    }else
+    {
+        res.status(404);
+        throw new Error("Users Not Found!");
+    }
+
+   
+});  
+
+
+
+
 
 
 //@desc Update user Profile
@@ -158,4 +184,29 @@ const updateUserProfile = asyncHandler(async(req,res)=>{
 
 
 
-export {loginUser,getUserProfile,registerUser,updateUserProfile} ;
+//@desc Delete User by Id
+//@route /api/users/delete/id
+//@access Private /admin
+
+const deleteUserById = asyncHandler(async(req,res)=>{
+   
+    const id = req.params.id
+   // console.log(id)
+    await User.deleteOne({"_id":id});
+    
+    const users = await User.find({});
+    if(users)
+    {
+        res.json(users);
+    }else{
+        throw new Error("No users found")
+    }
+
+
+    
+
+
+})
+
+
+export {loginUser,getUserProfile,registerUser,updateUserProfile,getAllUsers,deleteUserById} ;

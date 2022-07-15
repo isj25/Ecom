@@ -54,7 +54,7 @@ const PlaceOrderScreen = () => {
     //console.log(order);
     if(order)
     {
-      navigate(`/orders/${order._id}`);
+      navigate(`/order/${order._id}`);
     }
    
 

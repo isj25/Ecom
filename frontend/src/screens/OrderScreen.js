@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Image,Col, Row, ListGroup } from "react-bootstrap";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams,useNavigate} from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
@@ -16,8 +16,10 @@ const OrderScreen = () => {
   const dispatch = useDispatch();
 
   const { id } = useParams();
+  const navigate =useNavigate();
 
-
+  const userLogin = useSelector(state => state.userLogin)
+   const {userInfo} = userLogin;
   const orderDetails = useSelector((state) => state.orderDetails);
   const { order, loading, error } = orderDetails;
 
@@ -29,7 +31,10 @@ const OrderScreen = () => {
 
 
     //  
-
+      if(!userInfo)
+      {
+        navigate("/login");
+      }
       if(order)
       { 
         dispatch(clearCart());
@@ -40,7 +45,7 @@ const OrderScreen = () => {
       {
         dispatch(getOrderDetails(id));
       }
-    }, [id,dispatch,order]);
+    }, [id,dispatch,order,userInfo,navigate]);
 
   return (
   loading ? (
