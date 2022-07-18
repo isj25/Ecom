@@ -49,6 +49,7 @@ if(process.env.NODE_ENV === 'production')
         })
 }else
 {
+    app.use('/uploads',express.static(path.join(__dirname,'/uploads')));
     app.get("/",(req,res)=>{
         res.json("Server is running ...");
     })
@@ -57,7 +58,7 @@ if(process.env.NODE_ENV === 'production')
 
 
 
-app.use('/uploads',express.static(path.join(__dirname,'/uploads')));
+
 app.use(notFound);
 app.use(errorHandler);
 
