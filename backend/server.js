@@ -37,7 +37,7 @@ app.use("/api/orders",orderRoutes)
 
 const __dirname = path.resolve();
 
-app.use('/uploads',express.static(path.join(__dirname,'/uploads')));
+
 
 if(process.env.NODE_ENV === 'production')
 {
@@ -57,7 +57,7 @@ if(process.env.NODE_ENV === 'production')
 
 
 
-
+app.use('/uploads',express.static(path.join(__dirname,'/uploads')));
 app.use(notFound);
 app.use(errorHandler);
 
