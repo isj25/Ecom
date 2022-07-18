@@ -11,7 +11,7 @@ import {
   Form,
   Button,
   ListGroupItem,
-  NavItem,
+
 } from "react-bootstrap";
 
 import { addToCart, removeFromCart } from "../actions/cartActions";

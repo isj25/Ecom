@@ -5,13 +5,12 @@ import axios from 'axios';
 import {
   Form,
   Button,
-  Row,
-  Col,
+  
   FormGroup,
   FormLabel,
   FormControl,
 } from "react-bootstrap";
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 import Message from "../components/Message";
 import Loader from "../components/Loader";
