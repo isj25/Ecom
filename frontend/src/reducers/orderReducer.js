@@ -1,4 +1,4 @@
-import { ORDER_CREATE_REQUEST,ORDER_CREATE_SUCCESS,ORDER_CREATE_FAIL, ORDER_DETAILS_REQUEST,ORDER_DETAILS_SUCCESS,ORDER_DETAILS_FAIL, ORDER_PAY_REQUEST, ORDER_PAY_SUCCESS, ORDER_PAY_FAIL, ORDER_PAY_RESET, ALL_ORDER_DETAILS_REQUEST, ALL_ORDER_DETAILS_SUCCESS, ALL_ORDER_DETAILS_FAIL, CLEAR_ORDER, ORDER_MY_DETAILS_REQUEST, ORDER_MY_DETAILS_SUCCESS, ORDER_MY_DETAILS_FAIL } from "../constants/orderConstants.js";
+import { ORDER_CREATE_REQUEST,ORDER_CREATE_SUCCESS,ORDER_CREATE_FAIL, ORDER_DETAILS_REQUEST,ORDER_DETAILS_SUCCESS,ORDER_DETAILS_FAIL, ALL_ORDER_DETAILS_REQUEST, ALL_ORDER_DETAILS_SUCCESS, ALL_ORDER_DETAILS_FAIL, CLEAR_ORDER, ORDER_MY_DETAILS_REQUEST, ORDER_MY_DETAILS_SUCCESS, ORDER_MY_DETAILS_FAIL, ORDER_UPDATE_REQUEST, ORDER_UPDATE_SUCCESS, ORDER_UPDATE_FAIL, ORDER_UPDATE_RESET, ALL_ORDER_DETAILS_RESET } from "../constants/orderConstants.js";
 
 export const orderCreateReducer = (state={},action) =>{
 
@@ -91,17 +91,17 @@ export const orderDetailsReducer = (state ={loading:true,orderItems:[],shippingA
 
 
 
-export const orderPayReducer = (state ={},action)=>{
+export const orderUpdateReducer = (state ={},action)=>{
 
 
         switch(action.type)
         {
-            case ORDER_PAY_REQUEST:
+            case ORDER_UPDATE_REQUEST:
                 {
                     return {loading :true}
                 }
 
-            case ORDER_PAY_SUCCESS:
+            case ORDER_UPDATE_SUCCESS:
                 {
                     return {
                         loading : false,
@@ -110,14 +110,14 @@ export const orderPayReducer = (state ={},action)=>{
                     }
                 }
 
-            case ORDER_PAY_FAIL :{
+            case ORDER_UPDATE_FAIL :{
                 return {
                     loading : false,
                     error : action.payload
                 }
             }
 
-            case ORDER_PAY_RESET:{
+            case ORDER_UPDATE_RESET:{
                     return {};
             }
 
@@ -167,6 +167,13 @@ export const allOrdersReducer =(state = {orders:[]},action)=>{
                     loading : false,
                     error : action.payload
 
+                }
+            }
+
+        case ALL_ORDER_DETAILS_RESET:
+            {
+                return {
+                    orders:[]
                 }
             }
 

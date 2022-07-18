@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { LinkContainer } from "react-router-bootstrap";
 import { Table, Button } from "react-bootstrap";
 import {useNavigate} from "react-router-dom"
@@ -7,36 +7,66 @@ import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { getAllUsers,deleteUserById } from "../actions/userActions";
 
+
 const UserListScreen = () => {
   const dispatch = useDispatch();
   const navigate  =useNavigate()
   const userList = useSelector((state) => state.userList);
   const { users, error, loading } = userList;
-
+  //console.log(users)
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
+
+
+  const deleteUser = useSelector((state)=>state.deleteUser);
+  const {success,error:deleteError,loading:deleteLoading} = deleteUser;
   useEffect(() => {
   
     if(!userInfo)
     {
       navigate('/login')
     }
-    dispatch(getAllUsers());
-  }, [dispatch,userInfo]);
+
+    if(userInfo && userInfo.isAdmin)
+    {
+      dispatch(getAllUsers());
+    }else
+    {
+      navigate("/")
+    }
+   
+  }, [dispatch,userInfo,navigate]);
 
  
   function deleteButtonHandler(userId)
   {
-    dispatch(deleteUserById(userId))
+    if(window.confirm("Are you sure You want to delete User?"))
+    {
+      if(userInfo)
+      {
+        if(userInfo._id === userId)
+        {
+          window.alert("User Cannot be deleted");
+        }else
+        {
+          dispatch(deleteUserById(userId))
+        }
+      }
+      
+    }
+
+    
+    
   }
 
   return (
     <div>
+      {deleteLoading ? <Loader></Loader> : deleteError?<Message variant='danger'>{deleteError}</Message>:success?<Message variant='success'>{success}</Message>:""}
       <h1>Users</h1>
       {loading ? (
         <Loader></Loader>
       ) : error ? (
-        <Message variant="danger">{error}</Message>
+        <Message variant="danger">{error}<LinkContainer to="/" ><span className="btn">Go Back</span></LinkContainer></Message>
       ) : (
         <Table striped bordered hover responsive className="table-sm">
           <thead>
@@ -67,7 +97,7 @@ const UserListScreen = () => {
                         {user.isAdmin ? (<i className="fas fa-check" style={{color:'green'}}></i>): (<i className="fas fa-times" style={{color:'red'}}></i>)}
                     </td>
                     <td>
-                        <LinkContainer to={`/user/${user._id}/edit`}>
+                        <LinkContainer to={`/admin/user/${user._id}/edit`}>
                             <Button variant="light" className="btn btn-sm">
                                 <i className="fas fa-edit"></i>
                             </Button>
@@ -75,7 +105,7 @@ const UserListScreen = () => {
 
                         <Button onClick={()=>{
                             deleteButtonHandler(user._id)
-                        }} className='btn btn-sm'>
+                        }} className='btn btn-sm btn-danger'>
                             <i className="fas fa-trash"></i>
                         </Button>
                     </td>

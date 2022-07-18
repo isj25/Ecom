@@ -64,17 +64,19 @@ export const getOrderById = asyncHandler(async(req,res)=>{
 export const updateOrderById = asyncHandler(async(req,res)=>{
     
   const order = await Order.findById(req.params.id) 
+  
+  const isPaid = req.body.isPaid;
+  const isDelivered = req.body.isDelivered;
+
 
   if(order)
   {
-    order.isPaid = true;
+    
     order.paitAt = Date.now();
-    order.paymentResult = {
-      id: req.body.id,
-      status : req.body.status,
-      update_time : req.body.update_time,
-      email_address : req.body.payer.email_address
-    }
+    
+    order.isPaid = isPaid || order.isPaid;
+    order.isDelivered = isDelivered || order.isDelivered;
+    order.paidAt = Date.now()
 
 
     const updatedOrder = await order.save();
@@ -103,5 +105,30 @@ export const getOrders  = asyncHandler(async(req,res)=>{
       throw new Error(error);
     }
     
+
+})
+
+
+
+
+//desc GET ALL orders
+//@route GET api/orders
+//@access PRIVATE ADMIN
+
+export const getAllOrders = asyncHandler(async(req,res)=>{
+
+
+      try{
+
+          const orders = await Order.find({}).populate('user','name email');
+
+          res.json(orders);
+
+
+      }catch(error)
+      {
+          throw new Error(error);
+      }
+
 
 })

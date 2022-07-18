@@ -185,28 +185,96 @@ const updateUserProfile = asyncHandler(async(req,res)=>{
 
 
 //@desc Delete User by Id
-//@route /api/users/delete/id
+//@route DELETE /api/users/delete/id
 //@access Private /admin
 
 const deleteUserById = asyncHandler(async(req,res)=>{
    
     const id = req.params.id
-   // console.log(id)
-    await User.deleteOne({"_id":id});
-    
-    const users = await User.find({});
-    if(users)
+    // console.log(id)
+    // console.log(req.user._id)
+    if(req.user._id.toString()=== id)
     {
-        res.json(users);
-    }else{
-        throw new Error("No users found")
+        res.status(400)
+        throw new Error("User Cannot be Deleted")
+    }else
+    {
+        await User.deleteOne({"_id":id});
+    
+        const users = await User.find({});
+        if(users)
+        {
+            res.json(users);
+        }else{
+            res.status(404)
+            throw new Error("User Not found")
+        }
     }
 
+})
 
-    
+//desc GET user by Id
+//route /api/users/:id
+//access Private/admin
+const getUserById = asyncHandler(async(req,res)=>{
+
+
+    const user = await User.findById(req.params.id).select('-password');
+    if(user)
+    {
+        res.json(user);
+    }else
+    {
+        res.status(404);
+        throw new Error("User Not Found");
+    }
 
 
 })
 
 
-export {loginUser,getUserProfile,registerUser,updateUserProfile,getAllUsers,deleteUserById} ;
+
+
+//@desc Update user 
+//@route PUT /api/users/:id
+//@access Private/admin
+
+const updateUser= asyncHandler(async(req,res)=>{
+
+
+    const user = await User.findById(req.params.id);
+    if(user)
+    {
+
+
+        user.name = req.body.name || user.name;
+        user.email = req.body.email || user.email;
+
+
+        user.isAdmin = req.body.isAdmin || false;
+
+        const updatedUser = await user.save();
+
+
+
+
+
+        res.json({
+             _id:updatedUser._id,
+            name:updatedUser.name,
+            email:updatedUser.email,
+            isAdmin : updatedUser.isAdmin,
+            token:generateToken(updatedUser._id)
+           
+        })
+    }else
+    {
+        res.status(404);
+        throw new Error("User Not Found!");
+    }
+
+
+});  
+
+
+export {loginUser,getUserProfile,registerUser,updateUserProfile,getAllUsers,deleteUserById,getUserById,updateUser} ;

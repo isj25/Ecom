@@ -14,14 +14,15 @@ import {
   NavItem,
 } from "react-bootstrap";
 
-import { addToCart,removeFromCart } from "../actions/cartActions";
+import { addToCart, removeFromCart } from "../actions/cartActions";
+import { LinkContainer } from "react-router-bootstrap";
 
 const Cartscreen = () => {
   const { id } = useParams();
   const location = useLocation();
   const qty = location.search ? Number(location.search.split("=")[1]) : 1;
   const dispatch = useDispatch();
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   useEffect(() => {
     if (id) {
       dispatch(addToCart(id, qty));
@@ -32,20 +33,18 @@ const Cartscreen = () => {
   const { cartItems } = cart;
 
   function removeFromCartHandler(id) {
-      dispatch(removeFromCart(id))
+    dispatch(removeFromCart(id));
   }
 
   function checkoutHandler() {
-    
-
-    navigate("/login?redirect=shipping")
-
+    navigate("/login?redirect=shipping");
   }
 
   return (
     <Row>
       <Col md={8}>
         <h1>Shopping Cart</h1>
+
         {cartItems.length === 0 ? (
           <Message>
             Your Cart is Empty
@@ -121,6 +120,13 @@ const Cartscreen = () => {
               {cartItems
                 .reduce((acc, item) => acc + item.price * item.qty, 0)
                 .toFixed(2)}
+            </ListGroupItem>
+            <ListGroupItem className="d-grid">
+              <LinkContainer to="/">
+                <Button type="button" className="btn btn-block">
+                  Add More Items
+                </Button>
+              </LinkContainer>
             </ListGroupItem>
             <ListGroupItem className="d-grid">
               <Button

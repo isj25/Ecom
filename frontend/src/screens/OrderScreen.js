@@ -1,13 +1,14 @@
-import React, { useEffect } from "react";
-import { Image,Col, Row, ListGroup } from "react-bootstrap";
+import React, { useEffect,useState } from "react";
+import { Image,Col, Row, ListGroup, Button } from "react-bootstrap";
 import { Link, useParams,useNavigate} from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 
 
-import { clearOrder, getOrderDetails } from "../actions/orderActions.js";
+import { clearOrder,getOrderDetails, updateOrder } from "../actions/orderActions.js";
 import { clearCart } from "../actions/cartActions";
+import { ALL_ORDER_DETAILS_RESET } from "../constants/orderConstants";
 
 
 const OrderScreen = () => {
@@ -24,8 +25,8 @@ const OrderScreen = () => {
   const { order, loading, error } = orderDetails;
 
  
-
-
+  const [isPaid,setIsPaid] = useState(false);
+  const [isDelivered,setIsDelivered] = useState(false)
 
   useEffect(() => {
 
@@ -39,6 +40,8 @@ const OrderScreen = () => {
       { 
         dispatch(clearCart());
         dispatch(clearOrder());
+          setIsPaid(order.isPaid)
+          setIsDelivered(order.isDelivered);
       }
 
       if(!order || order._id !== id )
@@ -46,6 +49,44 @@ const OrderScreen = () => {
         dispatch(getOrderDetails(id));
       }
     }, [id,dispatch,order,userInfo,navigate]);
+
+   // console.log("hi")
+
+    function setDeliveredHandler()
+    {
+
+        
+        const orderId = id;
+        const updatedOrder = {
+       
+          isDelivered : true
+        }
+
+        dispatch(updateOrder(orderId,updatedOrder))
+        dispatch(getOrderDetails(id));
+        // dispatch({
+        //   type:
+        // })
+        dispatch({
+          type: ALL_ORDER_DETAILS_RESET
+        })
+    }
+
+    function setPaidHandler()
+    {
+      
+      const orderId = id;
+      const updatedOrder = {
+        isPaid : true
+      }
+
+      dispatch(updateOrder(orderId,updatedOrder))
+      dispatch(getOrderDetails(id));
+      dispatch({
+        type: ALL_ORDER_DETAILS_RESET
+      })
+
+    }
 
   return (
   loading ? (
@@ -142,8 +183,33 @@ const OrderScreen = () => {
                 <Col>${order.totalPrice}</Col>
               </Row>
             </ListGroup.Item>
-
-            
+            {
+              userInfo && userInfo.isAdmin?(<>
+                
+                <ListGroup.Item className="d-grid">
+              
+             
+                <Button onClick={()=>{
+                  setIsDelivered(true)
+                  setDeliveredHandler()
+                }} disabled={isDelivered}>
+                  Set Delivered
+                </Button>
+                </ListGroup.Item>
+  
+                <ListGroup.Item className="d-grid">
+                
+                <Button onClick={()=>{
+                  setIsPaid(true);
+                  setPaidHandler();
+                }} disabled={isPaid}>
+                  Set Payment to Paid
+                </Button>
+                </ListGroup.Item>
+                
+                </>):""
+            }
+             
           </ListGroup>
         </Col>
       </Row>

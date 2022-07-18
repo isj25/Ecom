@@ -100,7 +100,7 @@ export const userDetailsReducer = (state = {user:{}},action)=>{
 
 
 
-export const updateUserReducer = (state={updateduser:{}},action)=>{
+export const updateUserReducer = (state={user:{}},action)=>{
 
 
     switch(action.type)
@@ -183,34 +183,34 @@ export const userListReducer = (state={users:[]},action)=>{
 
 
 
-// export const deleteUserReducer = (state={},action) =>{
+export const deleteUserReducer = (state={},action) =>{
 
 
-//         switch(action.type)
-//         {
-//             case USER_DELETE_REQUEST:
-//                { return {
-//                         loading : true
-//                 }
-//             }
+        switch(action.type)
+        {
+            case USER_DELETE_REQUEST:
+               { return {
+                        loading : true
+                }
+            }
 
-//             case USER_DELETE_SUCCESS:
-//                 {
-//                     return {
-//                         loading : false,
-//                         success : action.payload
-//                     }
-//                 }
+            case USER_DELETE_SUCCESS:
+                {
+                    return {
+                        loading : false,
+                        success : "Successfully Deleted"
+                    }
+                }
 
-//             case USER_DELETE_FAIL:
-//                 {
-//                     return {
-//                         loading :false,
-//                         error : action.payload
-//                     }
-//                 }
+            case USER_DELETE_FAIL:
+                {
+                    return {
+                        loading :false,
+                        error : action.payload
+                    }
+                }
 
-//             default:
-//                 return state;
-//         }
-// }
+            default:
+                return state;
+        }
+}
