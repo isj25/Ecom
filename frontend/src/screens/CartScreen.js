@@ -37,7 +37,7 @@ const Cartscreen = () => {
   }
 
   function checkoutHandler() {
-    navigate("/login?redirect=shipping");
+    navigate("/login?redirect=/shipping");
   }
 
   return (
@@ -123,7 +123,7 @@ const Cartscreen = () => {
             </ListGroupItem>
             <ListGroupItem className="d-grid">
               <LinkContainer to="/">
-                <Button type="button" className="btn btn-block">
+                <Button type="button" className="btn-primary btn-block">
                   Add More Items
                 </Button>
               </LinkContainer>
