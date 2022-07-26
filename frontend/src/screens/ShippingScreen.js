@@ -84,7 +84,7 @@ const ShippingScreen = () => {
 
             <FormGroup controlId='PostalCode'>
             <FormLabel>Postal Code</FormLabel>
-            <FormControl type='text' value={postalCode} placeholder='Enter Postal Code' onChange={(e)=>setPostalCode(e.target.value)} required>
+            <FormControl type='number' value={postalCode} placeholder='Enter Postal Code' onChange={(e)=>setPostalCode(e.target.value)} required>
             </FormControl>
             </FormGroup>
 

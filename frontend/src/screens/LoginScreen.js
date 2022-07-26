@@ -30,6 +30,9 @@ const LoginScreen = () => {
                             navigate("/");
                         }
                         
+                }else
+                {
+                    window.alert("If you want admin feature try : admin@example.com and password : 123456")
                 }
     },[navigate,redirect,userInfo])
     function submitHandler(event)
